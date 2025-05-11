@@ -1,0 +1,561 @@
+{
+	"info": {
+		"_postman_id": "2c9781cb-4ad9-41ff-8eab-9ea9e37235fd",
+		"name": "[1] Flujo Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28412091",
+		"_collection_link": "https://telecom-api.postman.co/workspace/Telecom~5c2ee624-bca3-4991-b58d-2b6aa6009d93/collection/28412091-2c9781cb-4ad9-41ff-8eab-9ea9e37235fd?action=share&source=collection_link&creator=28412091"
+	},
+	"item": [
+		{
+			"name": "Test Suite #1 Trello",
+			"item": [
+				{
+					"name": "[1] Crear una tarjeta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Captura el ID de la respuesta del POST\r",
+									"let jsonData = pm.response.json();\r",
+									"pm.environment.set(\"idCard\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Registro de nuevos usuarios en la aplicación\",\r\n  \"desc\": \"@leonardo esta descripción debe ser completada con AC y la estructura básica: Como, Quiero y Para.\",\r\n  \"idList\": \"68001f9be7a5813a0f4df920\",\r\n  \"idBoard\": \"68001e430c94a4279f071c2e\", \r\n  \"start\": \"2025-04-20\",\r\n  \"due\": \"2025-12-31\",\r\n  \"dueComplete\": false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase1}}/{{cards}}/?key={{key}}&token={{token}}&idList={{IdList}}",
+							"host": [
+								"{{URLBase1}}"
+							],
+							"path": [
+								"{{cards}}",
+								""
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "idList",
+									"value": "{{IdList}}",
+									"description": "ID List"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[2] Verificar tarjeta existente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// creamos una variable constante para tener agarrado el response.json\r",
+									"const body = pm.response.json();\r",
+									"\r",
+									"// assertions, verificamos que la palabra se encuentre dentro del objeto\r",
+									"// comparamos que expect sea igual a un objeto\r",
+									"pm.test(\"deberia encontrar leonardo\",()=>{ \r",
+									"    pm.expect(body).to.be.an(\"object\") \r",
+									"});\r",
+									"\r",
+									"// visualizamos la consola\r",
+									"console.log(body); \r",
+									"\r",
+									"\r",
+									"// verificamos que el status sea 200\r",
+									"pm.test(\"Status 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"}); \r",
+									"\r",
+									"// verificamos que el nombre sea correcto\r",
+									"pm.test(\"Nombre correcto\", () => {\r",
+									"  pm.expect(pm.response.json().name).to.eql(\"Registro de nuevos usuarios en la aplicación\");\r",
+									"}); \r",
+									"\r",
+									"// verificamos que las fechas sean correctas.\r",
+									"pm.test(\"Fechas correctas\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  // Verificamos fecha no zona horaria.\r",
+									"  pm.expect(res.start.split('T')[0]).to.eql(\"2025-04-20\");\r",
+									"  pm.expect(res.due.split('T')[0]).to.eql(\"2025-12-31\");\r",
+									"}); \r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase1}}/{{cards}}/{{idCard}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{URLBase1}}"
+							],
+							"path": [
+								"{{cards}}",
+								"{{idCard}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[3] Actualizamos tarjeta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Registro de nuevos usuarios en la aplicación\",\r\n  \"desc\": \"**Historia de Usuario**:\\nComo nuevo usuario de la aplicación,\\nQuiero poder registrarme de forma rápida y segura,\\nPara comenzar a utilizar las funcionalidades de la plataforma sin inconvenientes.\\n\\n**Criterios de Aceptación**:\\n1. El formulario de registro debe contener los campos: nombre, correo electrónico, contraseña.\\n2. El correo electrónico debe validarse antes de enviarse.\\n3. La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.\\n4. Al completar el registro, el usuario debe recibir un email de confirmación.\\n5. Si hay errores en el formulario, deben mostrarse mensajes claros y específicos.\",\r\n  \"idList\": \"68001fa4c87911246c71abf5\",\r\n  \"idBoard\": \"68001e430c94a4279f071c2e\", \r\n  \"start\": \"2025-04-20\",\r\n  \"due\": \"2025-12-31\",\r\n  \"dueComplete\": false,\r\n  \"idMembers\": [\"641bd6763582a1f754cd2693\"]\r\n\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase1}}/{{cards}}/:id/?key={{key}}&token={{token}}&IdCard={{idCard}}&idList={{IdList}}",
+							"host": [
+								"{{URLBase1}}"
+							],
+							"path": [
+								"{{cards}}",
+								":id",
+								""
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Registro de nuevos usuarios en la aplicación",
+									"description": "card name",
+									"disabled": true
+								},
+								{
+									"key": "IdCard",
+									"value": "{{idCard}}",
+									"description": "id card"
+								},
+								{
+									"key": "idList",
+									"value": "{{IdList}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idCard}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[4] Verificar datos actualizados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"La respuesta tiene status 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El campo 'Nombre' es correcto\", () => {\r",
+									"    pm.expect(responseBody.name).to.eql(\"Registro de nuevos usuarios en la aplicación\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El campo 'Descripcion' contiene los textos clave\", () => {\r",
+									"    pm.expect(responseBody.desc).to.include(\"Historia de Usuario\");\r",
+									"    pm.expect(responseBody.desc).to.include(\"Criterios de Aceptación\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase1}}/{{cards}}/{{idCard}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{URLBase1}}"
+							],
+							"path": [
+								"{{cards}}",
+								"{{idCard}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[5] Actualizar posicion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"La respuesta tiene status 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idList\": \"68001fad326e9af46d063b53\",\r\n    \"idMembers\": [\"641bd6763582a1f754cd2693\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase1}}/{{cards}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URLBase1}}"
+							],
+							"path": [
+								"{{cards}}",
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idCard}}",
+									"description": "card id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[6] Eliminar tarjeta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase1}}/cards/{{idCard}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{URLBase1}}"
+							],
+							"path": [
+								"cards",
+								"{{idCard}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "desc",
+									"value": "",
+									"description": "card description",
+									"disabled": true
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pass",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "BearerToken",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "URLBase",
+			"value": "https://apis.geekqa.net/api",
+			"type": "default"
+		},
+		{
+			"key": "idNewProduct",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "{{tokenProduct}}",
+			"value": ""
+		},
+		{
+			"key": "tokenUser",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tokenProduct",
+			"value": ""
+		},
+		{
+			"key": "idproduct",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
