@@ -6,6 +6,8 @@ Este proyecto simula un flujo completo de gestión de tareas en un tablero de Tr
 
 📹 **Video del CRUD funcionando:**  
 [🔗 Ver video en Google Drive](https://drive.google.com/file/d/1NkLBx4ahmYxwRwyYrqwuMhPyqt4-2akh/view?usp=sharing)
+
+
 [🔗 Doc](https://orange-decade-34a.notion.site/Postman-Trello-1f0cee9e4b0780988beac9db5d7dd9f5)
 
 
